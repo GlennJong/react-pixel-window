@@ -1,9 +1,9 @@
 
-import { PixelWindow, FreePixelWindow } from '../../src/components/PixelWindow';
+import { PixelWindow, FreePixelWindow } from '../../src/PixelWindow';
 
 function App() {
   return (
-    <>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <PixelWindow
         pixel={24}
         stroke="#000"
@@ -13,15 +13,22 @@ function App() {
         <div>Pixel Window</div>
       </PixelWindow>
       <FreePixelWindow
-        name="123"
+        name="free-pixel-window"
         pixel={24}
         stroke="#000"
         frame="#F0F0F0"
         background="#F0F0F0"
       >
-        <div>Free Pixel Window</div>
+        <div style={{ width: '100%', height: '100%', overflowY: 'auto' }}>
+          <div>Free Pixel Window</div>
+          <ul>
+            <li>item1</li>
+            <li>item2</li>
+            <li>item3</li>
+          </ul>
+        </div>
       </FreePixelWindow>
-    </>
+    </div>
   );
 }
 

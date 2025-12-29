@@ -25,7 +25,6 @@ export const PixelWindow = ({
     background,
   });
 
-
   return (
     <div
       className="window"
@@ -59,6 +58,7 @@ export const FreePixelWindow = ({
   style,
   minWidth = 120,
   minHeight = 100,
+  onChange,
 }: {
   name?: string;
   children: ReactNode;
@@ -70,6 +70,7 @@ export const FreePixelWindow = ({
   style?: React.CSSProperties;
   minWidth?: number;
   minHeight?: number;
+  onChange?: (position: { x: number; y: number }, size: { width: number; height: number }) => void;
 }) => {
 
   const [position, setPosition] = useState(() => {
@@ -91,10 +92,15 @@ export const FreePixelWindow = ({
   const [resizeStart, setResizeStart] = useState({ width: 0, height: 0, mouseX: 0, mouseY: 0 });
 
   useEffect(() => {
+    if (onChange) {
+      onChange(position, size);
+    }
+  }, [position, size, onChange]);
+
+  useEffect(() => {
     if (name) {
       localStorage.setItem(`${name}-position`, JSON.stringify(position));
       localStorage.setItem(`${name}-size`, JSON.stringify(size));
-
     }
   }, [name, position, size]);
 
@@ -115,7 +121,6 @@ export const FreePixelWindow = ({
     }
   }, [isDragging, isResizing, dragStart, resizeStart, minWidth, minHeight]);
 
-  
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
     setIsResizing(false);
@@ -187,6 +192,8 @@ export const FreePixelWindow = ({
       <div style={{
         padding: `${pixel}px`,
         paddingTop: 0,
+        height: `calc(100% - ${pixel}px)`,
+        boxSizing: 'border-box',
         ...style
       }}>{children}</div>
       <div
